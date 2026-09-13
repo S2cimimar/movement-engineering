@@ -25,7 +25,7 @@ function msg(el,text,ok=false){el.textContent=text;el.classList.remove('hide');e
 $('magic').onclick=async()=>{const email=$('email').value.trim();if(!email)return msg($('authMsg'),'E-posta adresini yaz.');$('magic').disabled=true;const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:APP_URL}});$('magic').disabled=false;if(error)return msg($('authMsg'),'Giriş bağlantısı gönderilemedi: '+error.message);msg($('authMsg'),'Giriş bağlantısı e-postana gönderildi.',true)};
 $('logout').onclick=async()=>{await sb.auth.signOut();location.href=APP_URL};
 async function boot(){const {data:{session}}=await sb.auth.getSession();if(!session)return;const u=session.user;$('auth').classList.add('hide');$('shell').classList.remove('hide');let {data:p,error}=await sb.from('profiles').select('id,full_name,role').eq('id',u.id).maybeSingle();if(error){$('hello').textContent='Hesap açıldı';return}if(!p){$('hello').textContent='Profil hazırlanıyor';return}$('hello').textContent=p.full_name||u.email;if(p.role==='coach'){$('coachView').classList.remove('hide');await loadCoach()}else{$('studentView').classList.remove('hide');await loadStudent(u.id)}}
-async async function loadCoach(){
+async function loadCoach(){
   const {data:rels,error}=await sb
     .from('coach_students')
     .select('student_id,status')
