@@ -25,7 +25,77 @@ function msg(el,text,ok=false){el.textContent=text;el.classList.remove('hide');e
 $('magic').onclick=async()=>{const email=$('email').value.trim();if(!email)return msg($('authMsg'),'E-posta adresini yaz.');$('magic').disabled=true;const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:APP_URL}});$('magic').disabled=false;if(error)return msg($('authMsg'),'Giriş bağlantısı gönderilemedi: '+error.message);msg($('authMsg'),'Giriş bağlantısı e-postana gönderildi.',true)};
 $('logout').onclick=async()=>{await sb.auth.signOut();location.href=APP_URL};
 async function boot(){const {data:{session}}=await sb.auth.getSession();if(!session)return;const u=session.user;$('auth').classList.add('hide');$('shell').classList.remove('hide');let {data:p,error}=await sb.from('profiles').select('id,full_name,role').eq('id',u.id).maybeSingle();if(error){$('hello').textContent='Hesap açıldı';return}if(!p){$('hello').textContent='Profil hazırlanıyor';return}$('hello').textContent=p.full_name||u.email;if(p.role==='coach'){$('coachView').classList.remove('hide');await loadCoach()}else{$('studentView').classList.remove('hide');await loadStudent(u.id)}}
-async function loadCoach(){const {data,error}=await sb.from('coach_students').select('student_id,status').order('assigned_at',{ascending:false});if(error){$('studentRows').textContent='Öğrenci ilişkileri okunamadı: '+error.message;return}if(!data?.length){$('studentRows').textContent='Henüz bağlı öğrenci yok.';return}$('studentRows').innerHTML=data.map(x=>`<div class="signal ok"><b>${x.student_id.slice(0,8)}</b><div class="mini">${x.status||'active'}</div></div>`).join('')}
+async async function loadCoach(){
+  const {data:rels,error}=await sb
+    .from('coach_students')
+    .select('student_id,status')
+    .order('assigned_at',{ascending:false});
+
+  if(error){
+    $('studentRows').textContent='Öğrenci ilişkileri okunamadı: '+error.message;
+    return;
+  }
+
+  if(!rels?.length){
+    $('studentRows').textContent='Henüz bağlı öğrenci yok.';
+    return;
+  }
+
+  const rows=[];
+
+  for(const r of rels){
+    const {data:programs}=await sb
+      .from('programs')
+      .select('title,version,target_adaptation,hypothesis,status')
+      .eq('student_id',r.student_id)
+      .eq('status','published')
+      .order('version',{ascending:false})
+      .limit(1);
+
+    const {data:checkins}=await sb
+      .from('checkins')
+      .select('checkin_date,energy,sleep,stress,pain,note,created_at')
+      .eq('student_id',r.student_id)
+      .order('created_at',{ascending:false})
+      .limit(1);
+
+    const p=programs?.[0];
+    const c=checkins?.[0];
+
+    rows.push(`
+      <div class="signal ok">
+        <b>${r.student_id.slice(0,8)}</b>
+        <div class="mini">${r.status||'active'}</div>
+
+        <div style="margin-top:12px">
+          <div class="ey">PROGRAM</div>
+          ${
+            p
+            ? `<b>${p.title}</b>
+               <div class="mini">v${p.version}${p.target_adaptation?' · '+p.target_adaptation:''}</div>
+               ${p.hypothesis?`<div class="signal">${p.hypothesis}</div>`:''}`
+            : `<div class="mini">Yayınlanmış program yok.</div>`
+          }
+        </div>
+
+        <div style="margin-top:14px">
+          <div class="ey">SON CHECK-IN</div>
+          ${
+            c
+            ? `<div class="mini">
+                 ${c.checkin_date} · Enerji ${c.energy??'—'} · Uyku ${c.sleep??'—'} ·
+                 Stres ${c.stress??'—'} · Ağrı ${c.pain??'—'}
+               </div>
+               ${c.note?`<div class="signal">${c.note}</div>`:''}`
+            : `<div class="mini">Henüz check-in yok.</div>`
+          }
+        </div>
+      </div>
+    `);
+  }
+
+  $('studentRows').innerHTML=rows.join('');
+}
 async function loadStudent(uid){const {data,error}=await sb.from('programs').select('title,version,target_adaptation,hypothesis,status').eq('student_id',uid).eq('status','published').order('version',{ascending:false}).limit(1);if(error){$('programBox').textContent='Program okunamadı: '+error.message;return}if(!data?.length){$('programBox').textContent='Henüz yayınlanmış program yok.';return}const p=data[0];$('programBox').innerHTML=`<b>${p.title}</b><div class="mini">v${p.version}${p.target_adaptation?' · '+p.target_adaptation:''}</div>${p.hypothesis?'<div class="signal">'+p.hypothesis+'</div>':''}`}
 $('saveCheckin').onclick=async()=>{const {data:{user}}=await sb.auth.getUser();if(!user)return;const payload={student_id:user.id,energy:+$('energy').value||null,sleep:+$('sleep').value||null,stress:+$('stress').value||null,pain:$('pain').value===''?null:+$('pain').value,note:$('note').value.trim()||null};const {error}=await sb.from('checkins').insert(payload);if(error)return msg($('checkMsg'),'Kaydedilemedi: '+error.message);msg($('checkMsg'),'Check-in kaydedildi.',true)};
 sb.auth.onAuthStateChange(()=>boot());boot();
