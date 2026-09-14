@@ -1,0 +1,43 @@
+name: Production domain migration
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Replace legacy app URL
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('assets/movement-mind-v1.js')
+          old = 'https://s2cimimar.github.io/movement-engineering/movement-mind-online.html'
+          new = 'https://movementmind.com.tr/movement-mind-online.html'
+          text = path.read_text(encoding='utf-8')
+          if old not in text:
+              print('Legacy URL already absent; no change required.')
+          else:
+              path.write_text(text.replace(old, new), encoding='utf-8')
+              print('Production URL applied.')
+          PY
+      - name: Commit migration
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No migration change required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/movement-mind-v1.js
+          git commit -m "Use production domain for authentication redirects"
+          git push
