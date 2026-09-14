@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /movement-mind-online.html
+Disallow: /coach-panel.html
+Disallow: /digital-pt.html
+
+Sitemap: https://movementmind.com.tr/sitemap.xml

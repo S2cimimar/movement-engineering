@@ -1,10 +1,14 @@
 # Movement Mind
 
-Hareketin aklı.
+**The Intelligence of Movement.**
 
-[Movement Mind V1](https://s2cimimar.github.io/movement-engineering/movement-mind-online.html)
+- Production: https://movementmind.com.tr/
+- Uygulama: https://movementmind.com.tr/movement-mind-online.html
+- Beslenme aracı: https://movementmind.com.tr/movement-mind-nutrition.html
 
-Ana uygulama `movement-mind-online.html` dosyasıdır. Supabase Auth ve mevcut RLS politikalarıyla koç/öğrenci alanlarını ayırır.
+Ana koçluk uygulaması `movement-mind-online.html` dosyasıdır. Supabase Auth ve mevcut RLS politikaları koç/öğrenci erişimini ayırır. Kök `index.html` herkese açık Movement Mind ana sayfasıdır.
+
+Eski kök beslenme aracı `nutrition-v2.html` altında korunur.
 
 ```bash
 npm ci

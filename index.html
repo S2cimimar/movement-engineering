@@ -1,1 +1,357 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Movement Mind — Beslenme</title><meta name="theme-color" content="#f5f3ee"><style>:root{--bg:#f5f3ee;--panel:#fff;--text:#171717;--muted:#6f6c66;--border:#ddd8cf;--soft:#ece8e0}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}.w{max-width:860px;margin:auto;padding:30px 18px 70px}.brand{display:flex;justify-content:space-between;align-items:flex-end;gap:14px}.brand h1{font-size:34px;letter-spacing:-1px;margin:0}.brand small{color:var(--muted)}.lead{margin:7px 0 0;color:var(--muted)}.form{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:24px}.card{background:var(--panel);border:1px solid var(--border);border-radius:17px;padding:15px}label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}input,select{width:100%;min-height:45px;border:1px solid var(--border);border-radius:11px;padding:0 11px;background:#fff;color:var(--text);font-size:16px}.wide{grid-column:1/-1}.activity-help{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.45}.results{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}.metric{background:var(--panel);border:1px solid var(--border);border-radius:17px;padding:16px}.metric .k{font-size:13px;color:var(--muted)}.metric .v{font-weight:750;font-size:27px;letter-spacing:-.5px;margin:5px 0}.metric .s{font-size:12px;color:var(--muted);line-height:1.4}.goalbox{margin-top:10px;background:#171717;color:white;border-radius:17px;padding:17px}.goalbox .v{font-size:31px;font-weight:780;letter-spacing:-.8px;margin:4px 0}.goalbox .s{color:#d8d8d8;font-size:13px}.section{margin-top:27px}.section h2{font-size:20px;margin:0 0 10px;letter-spacing:-.2px}.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row{padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:14px;font-size:14px}.row:last-child{border-bottom:0}.pill{display:inline-block;background:var(--soft);border-radius:999px;padding:6px 9px;font-size:12px;margin:3px 3px 0 0}.myth{width:100%;background:#fff;border:1px solid var(--border);border-radius:13px;padding:13px;margin:6px 0;text-align:left;font-size:15px;display:flex;justify-content:space-between;gap:12px}.answer{display:none;padding:4px 13px 12px;color:var(--muted);line-height:1.5}.actions{display:flex;gap:8px;margin-top:16px}.btn{border:1px solid var(--border);background:white;border-radius:12px;padding:12px 14px;font-size:14px;font-weight:650}.btn.primary{background:#171717;color:#fff;border-color:#171717}.method{font-size:12px;color:var(--muted);line-height:1.55}.warning{font-size:12px;line-height:1.5;color:var(--muted);margin-top:22px;border-top:1px solid var(--border);padding-top:15px}.error{display:none;color:#9b2d2d;font-size:13px;margin-top:10px}@media(max-width:650px){.form,.results,.split{grid-template-columns:1fr}.wide{grid-column:auto}.brand{display:block}.brand small{display:block;margin-top:4px}.metric .v{font-size:25px}.goalbox .v{font-size:29px}}</style></head><body><main class="w"><div class="brand"><div><h1>Movement Mind</h1><p class="lead">Beslenme • Hesapla → Anla → Uygula</p></div><small>V2</small></div><section class="form"><div class="card"><label>Kilo (kg)</label><input id="weight" type="number" value="75" min="40" max="220" inputmode="decimal"></div><div class="card"><label>Boy (cm)</label><input id="height" type="number" value="175" min="130" max="220" inputmode="decimal"></div><div class="card"><label>Yaş</label><input id="age" type="number" value="30" min="18" max="80" inputmode="numeric"></div><div class="card"><label>Biyolojik cinsiyet</label><select id="sex"><option value="male">Erkek</option><option value="female">Kadın</option></select></div><div class="card"><label>Hedef</label><select id="goal"><option value="loss">Yağ kaybı</option><option value="maintain">Kiloyu koru</option><option value="gain">Kas kazanımı</option></select></div><div class="card"><label>Günlük hareket / antrenman</label><select id="activity"><option value="1.2">Çok düşük</option><option value="1.375">Düşük</option><option value="1.55" selected>Orta</option><option value="1.725">Yüksek</option></select><div class="activity-help">Orta: haftada birkaç antrenman + normal günlük hareket. “Yüksek” yalnızca gerçekten yüksek hacim ve hareketlilikte seçilmeli.</div></div><div class="card wide"><label>Günde kaç ana öğün?</label><select id="meals"><option>3</option><option selected>4</option><option>5</option></select></div></section><div id="error" class="error">Lütfen girilen değerleri kontrol et.</div><section class="goalbox"><div class="s">Hedef enerji aralığı</div><div class="v" id="targetCalories">—</div><div class="s" id="goalExplain">—</div></section><section class="results"><div class="metric"><div class="k">Tahmini bakım enerjisi</div><div class="v" id="maintenance">—</div><div class="s">Başlangıç tahmini; gerçek bakım ihtiyacı birkaç haftalık gözlemle doğrulanır.</div></div><div class="metric"><div class="k">Protein</div><div class="v" id="protein">—</div><div class="s" id="proteinMeal">—</div></div><div class="metric"><div class="k">Yağ</div><div class="v" id="fat">—</div><div class="s">Enerji ve temel fizyolojik işlevler için alt sınırı çok aşağı çekme.</div></div><div class="metric"><div class="k">Karbonhidrat</div><div class="v" id="carbs">—</div><div class="s">Protein ve yağdan sonra kalan enerjiden hesaplanır; hedefe göre artık gerçekten değişir.</div></div><div class="metric"><div class="k">Su</div><div class="v" id="water">—</div><div class="s">Başlangıç aralığı. Sıcaklık, terleme ve antrenman süresi ihtiyacı değiştirebilir.</div></div><div class="metric"><div class="k">Beklenen yön</div><div class="v" id="direction">—</div><div class="s" id="directionExplain">—</div></div></section><section class="section split"><div class="card"><h2>Nasıl uygularım?</h2><div class="row"><span>Her ana öğünde protein</span><b id="perMeal">—</b></div><div class="row"><span>Antrenman çevresinde</span><b>karbonhidratı artır</b></div><div class="row"><span>Sebze / meyve</span><b>günlük çeşitlilik</b></div><div class="row"><span>Takip</span><b>2–3 hafta trend</b></div></div><div class="card"><h2>≈ 25–30 g protein</h2><div class="row"><span>Tavuk / hindi</span><b>100–120 g pişmiş</b></div><div class="row"><span>Yağsız et</span><b>100–120 g pişmiş</b></div><div class="row"><span>Yumurta</span><b>≈ 4 adet</b></div><div class="row"><span>Süzme yoğurt</span><b>etikete göre</b></div></div></section><section class="section"><h2>Sonucu nasıl okumalı?</h2><div class="card"><span class="pill">Tek gün değil trend</span><span class="pill">Kilo + bel çevresi</span><span class="pill">Performans</span><span class="pill">Açlık / enerji</span><span class="pill">Uyku / toparlanma</span><p class="method">Enerji hesabı Mifflin–St Jeor denklemi ve aktivite çarpanı ile tahmin edilir. Hedef için küçük, sürdürülebilir bir enerji ayarı kullanılır. Bu nedenle sonuç “kesin reçete” değil, ölçülüp düzeltilecek bir başlangıç noktasıdır.</p></div></section><section class="section"><h2>Doğru / Yanlış</h2><div id="myths"></div></section><div class="actions"><button class="btn primary" id="share">Sonucu paylaş</button><button class="btn" id="copy">Metni kopyala</button></div><p class="warning">Bu araç 18 yaş ve üzeri sağlıklı yetişkinler için genel eğitim amaçlıdır; kişisel diyet veya tıbbi beslenme reçetesi değildir. Gebelik, emzirme, böbrek/kalp hastalığı, diyabet, yeme bozukluğu, ciddi metabolik hastalık veya özel beslenme gereksiniminde diyetisyen/hekim değerlendirmesi gerekir. Hesaplanan enerji ihtiyacı tahmindir; gerçek gereksinim vücut ağırlığı trendi, performans ve klinik bağlamla doğrulanır.</p></main><script>const $=x=>document.getElementById(x);const E={weight:$('weight'),height:$('height'),age:$('age'),sex:$('sex'),goal:$('goal'),activity:$('activity'),meals:$('meals')};let last={};const round5=n=>Math.max(0,Math.round(n/5)*5);const round50=n=>Math.max(0,Math.round(n/50)*50);function calc(){const w=+E.weight.value,h=+E.height.value,a=+E.age.value,sex=E.sex.value,act=+E.activity.value,goal=E.goal.value,meals=+E.meals.value;if(!(w>=40&&w<=220&&h>=130&&h<=220&&a>=18&&a<=80)){ $('error').style.display='block'; return } $('error').style.display='none';const bmr=10*w+6.25*h-5*a+(sex==='male'?5:-161);const maint=bmr*act;let gm={loss:[.82,.88],maintain:[.97,1.03],gain:[1.05,1.10]}[goal];let calLow=maint*gm[0],calHigh=maint*gm[1];let pr={loss:[1.8,2.2],maintain:[1.6,2.0],gain:[1.6,2.0]}[goal];let pLow=w*pr[0],pHigh=w*pr[1];let fatKg={loss:[.7,.9],maintain:[.8,1.0],gain:[.8,1.0]}[goal];let fLow=w*fatKg[0],fHigh=w*fatKg[1];let cLow=(calLow-pHigh*4-fHigh*9)/4;let cHigh=(calHigh-pLow*4-fLow*9)/4;cLow=Math.max(cLow,w*1.5);cHigh=Math.max(cHigh,cLow+25);let waterLow=w*.03,waterHigh=w*.04;$('maintenance').textContent=round50(maint)+' kcal';$('targetCalories').textContent=round50(calLow)+'–'+round50(calHigh)+' kcal / gün';$('protein').textContent=round5(pLow)+'–'+round5(pHigh)+' g';$('fat').textContent=round5(fLow)+'–'+round5(fHigh)+' g';$('carbs').textContent=round5(cLow)+'–'+round5(cHigh)+' g';$('water').textContent=waterLow.toFixed(1)+'–'+waterHigh.toFixed(1)+' L';const mealLow=round5(pLow/meals),mealHigh=round5(pHigh/meals);$('proteinMeal').textContent=meals+' öğüne bölersen yaklaşık '+mealLow+'–'+mealHigh+' g / öğün';$('perMeal').textContent=mealLow+'–'+mealHigh+' g';let dirs={loss:['↓ yavaş düşüş','Amaç hızlı değil, sürdürülebilir kayıp. 2–3 haftalık trendi izle.'],maintain:['→ stabil trend','Kilonun küçük günlük oynamaları normal; haftalık ortalamaya bak.'],gain:['↑ yavaş artış','Amaç kontrollü artış; hızlı kilo artışı gereksiz yağ kazanımını artırabilir.']}[goal];$('direction').textContent=dirs[0];$('directionExplain').textContent=dirs[1];$('goalExplain').textContent={loss:'Bakım ihtiyacının yaklaşık %12–18 altında başlangıç aralığı.',maintain:'Bakım ihtiyacı çevresinde küçük bir tolerans aralığı.',gain:'Bakım ihtiyacının yaklaşık %5–10 üzerinde kontrollü başlangıç aralığı.'}[goal];last={weight:w,goal,calLow:round50(calLow),calHigh:round50(calHigh),proteinLow:round5(pLow),proteinHigh:round5(pHigh),fatLow:round5(fLow),fatHigh:round5(fHigh),carbLow:round5(cLow),carbHigh:round5(cHigh),waterLow:waterLow.toFixed(1),waterHigh:waterHigh.toFixed(1)} }Object.values(E).forEach(el=>el.addEventListener('input',calc));calc();const myths=[['Karbonhidrat tek başına kilo aldırır.','Yanlış. Vücut ağırlığı değişiminde uzun dönem enerji dengesi belirleyicidir.'],['Kilo verirken protein önemlidir.','Doğru. Yeterli protein ve direnç antrenmanı yağsız kütlenin korunmasına yardımcı olur.'],['Terlemek doğrudan yağ yakmak demektir.','Yanlış. Terleme öncelikle ısı düzenleme ve sıvı kaybıdır.'],['Sağlıklı besin sınırsız yenebilir.','Yanlış. Besin kalitesi kadar toplam miktar da önemlidir.'],['Kas kazanmak için büyük kalori fazlası gerekir.','Yanlış. Çoğu durumda küçük ve kontrollü bir enerji fazlası daha rasyoneldir.'],['Uygulamadaki kalori rakamı kesin ihtiyacındır.','Yanlış. Bu bir başlangıç tahminidir; gerçek ihtiyaç trend verisiyle düzeltilir.']];const m=$('myths');myths.forEach(([q,a])=>{let d=document.createElement('div');d.innerHTML='<button class="myth" type="button"><span>'+q+'</span><b>+</b></button><div class="answer">'+a+'</div>';d.querySelector('button').onclick=()=>{let ans=d.querySelector('.answer'),open=ans.style.display==='block';ans.style.display=open?'none':'block';d.querySelector('b').textContent=open?'+':'−'};m.appendChild(d)});function text(){const name={loss:'Yağ kaybı',maintain:'Kiloyu koru',gain:'Kas kazanımı'}[last.goal];return 'Movement Mind — Beslenme\nHedef: '+name+'\nEnerji: '+last.calLow+'–'+last.calHigh+' kcal/gün\nProtein: '+last.proteinLow+'–'+last.proteinHigh+' g\nKarbonhidrat: '+last.carbLow+'–'+last.carbHigh+' g\nYağ: '+last.fatLow+'–'+last.fatHigh+' g\nSu: '+last.waterLow+'–'+last.waterHigh+' L\n\nGenel eğitim amaçlı başlangıç tahmini.'}$('share').onclick=async()=>{const t=text();if(navigator.share){try{await navigator.share({title:'Movement Mind — Beslenme',text:t,url:location.href})}catch(e){}}else{navigator.clipboard?.writeText(t);alert('Sonuç panoya kopyalandı.')}};$('copy').onclick=async()=>{try{await navigator.clipboard.writeText(text());$('copy').textContent='Kopyalandı';setTimeout(()=>$('copy').textContent='Metni kopyala',1500)}catch(e){alert(text())}};</script></body></html>
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2efe6">
+  <meta name="description" content="Movement Mind — adaptasyonu programın önüne koyan koçluk ve hareket sistemi.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://movementmind.com.tr/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Movement Mind — The Intelligence of Movement">
+  <meta property="og:description" content="Gör. Karar ver. İzle. Adaptasyonu programın önüne koyan sade koçluk sistemi.">
+  <meta property="og:url" content="https://movementmind.com.tr/">
+  <meta name="twitter:card" content="summary">
+  <title>Movement Mind — The Intelligence of Movement</title>
+  <style>
+    :root {
+      --paper: #f2efe6;
+      --paper-2: #e8e3d7;
+      --ink: #171612;
+      --muted: #716d64;
+      --line: #c8c1b3;
+      --white: #fffdf8;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(calc(100% - 36px), var(--max)); margin-inline: auto; }
+    .skip { position: absolute; left: -9999px; top: 0; }
+    .skip:focus { left: 16px; top: 16px; z-index: 20; background: var(--ink); color: var(--white); padding: 10px 14px; }
+
+    .topbar {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      white-space: nowrap;
+    }
+    .nav { display: flex; align-items: center; gap: 22px; font-size: 13px; }
+    .nav a { text-decoration: none; color: var(--muted); }
+    .nav a:hover, .nav a:focus-visible { color: var(--ink); }
+    .nav .login { color: var(--ink); font-weight: 700; }
+
+    .hero {
+      min-height: 72vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+      gap: 56px;
+      align-items: end;
+      padding: 86px 0 72px;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 {
+      margin: 18px 0 22px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: clamp(64px, 10vw, 142px);
+      line-height: .82;
+      letter-spacing: -.065em;
+    }
+    .hero-copy {
+      align-self: center;
+      max-width: 420px;
+      padding-top: 60px;
+    }
+    .lead {
+      margin: 0;
+      font-size: clamp(19px, 2.1vw, 29px);
+      line-height: 1.25;
+      letter-spacing: -.025em;
+    }
+    .sublead {
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 38rem;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .btn {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 18px;
+      border: 1px solid var(--ink);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: .01em;
+      transition: transform .18s ease, background .18s ease, color .18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.primary { background: var(--ink); color: var(--white); }
+    .btn.secondary { background: transparent; color: var(--ink); }
+
+    .section { padding: 88px 0; border-bottom: 1px solid var(--line); }
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(180px, .42fr) minmax(0, 1.58fr);
+      gap: 56px;
+      align-items: start;
+    }
+    h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 5vw, 72px);
+      line-height: .98;
+      font-weight: 400;
+      letter-spacing: -.045em;
+    }
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--ink);
+    }
+    .principle { padding: 22px 20px 30px 0; border-bottom: 1px solid var(--line); }
+    .principle + .principle { padding-left: 20px; border-left: 1px solid var(--line); }
+    .number { display: block; color: var(--muted); font-size: 11px; letter-spacing: .12em; margin-bottom: 56px; }
+    .principle h3 { margin: 0 0 10px; font-size: 20px; letter-spacing: -.02em; }
+    .principle p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
+
+    .sequence {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+    }
+    .sequence div { padding: 22px 14px 26px; min-height: 138px; }
+    .sequence div + div { border-left: 1px solid var(--line); }
+    .sequence span { display: block; color: var(--muted); font-size: 10px; letter-spacing: .12em; margin-bottom: 34px; }
+    .sequence strong { font-size: 16px; line-height: 1.25; }
+
+    .product {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      min-height: 440px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--white);
+    }
+    .product-main { padding: clamp(34px, 6vw, 72px); display: flex; flex-direction: column; justify-content: space-between; }
+    .product-main h2 { max-width: 760px; }
+    .product-main .eyebrow { color: #aaa69c; }
+    .product-side { background: var(--paper-2); color: var(--ink); padding: 34px; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-side ul { list-style: none; padding: 0; margin: 0; }
+    .product-side li { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .product-side .btn { width: 100%; }
+
+    .tools {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .tool {
+      min-height: 250px;
+      border: 1px solid var(--line);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-decoration: none;
+      background: rgba(255,255,255,.12);
+    }
+    .tool:hover { border-color: var(--ink); }
+    .tool h3 { margin: 0; font-size: 28px; font-weight: 500; letter-spacing: -.04em; }
+    .tool p { margin: 10px 0 0; color: var(--muted); max-width: 34rem; line-height: 1.55; }
+    .arrow { font-size: 24px; }
+
+    footer { padding: 28px 0 44px; }
+    .footer-grid { display: flex; justify-content: space-between; gap: 22px; color: var(--muted); font-size: 12px; }
+    .footer-grid strong { color: var(--ink); letter-spacing: .12em; }
+
+    @media (max-width: 820px) {
+      .nav a:not(.login) { display: none; }
+      .hero { min-height: auto; grid-template-columns: 1fr; gap: 8px; padding: 62px 0 58px; }
+      .hero-copy { padding-top: 0; }
+      h1 { font-size: clamp(62px, 19vw, 104px); }
+      .section { padding: 62px 0; }
+      .section-grid { grid-template-columns: 1fr; gap: 32px; }
+      .principles { grid-template-columns: 1fr; }
+      .principle + .principle { padding-left: 0; border-left: 0; }
+      .number { margin-bottom: 28px; }
+      .sequence { grid-template-columns: 1fr; }
+      .sequence div { min-height: 0; display: grid; grid-template-columns: 42px 1fr; align-items: center; }
+      .sequence div + div { border-left: 0; border-top: 1px solid var(--line); }
+      .sequence span { margin: 0; }
+      .product { grid-template-columns: 1fr; }
+      .tools { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      .topbar { min-height: 68px; }
+      .brand { font-size: 12px; }
+      .nav { gap: 12px; }
+      .hero { padding-top: 48px; }
+      .lead { font-size: 21px; }
+      .actions { display: grid; grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+      .footer-grid { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">İçeriğe geç</a>
+
+  <header class="wrap topbar">
+    <a class="brand" href="/" aria-label="Movement Mind ana sayfa">MOVEMENT MIND</a>
+    <nav class="nav" aria-label="Ana menü">
+      <a href="#sistem">Sistem</a>
+      <a href="#araclar">Araçlar</a>
+      <a class="login" href="/movement-mind-online.html">Uygulamaya gir →</a>
+    </nav>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow">THE INTELLIGENCE OF MOVEMENT</div>
+        <h1 id="hero-title">Gör.<br>Karar ver.<br>İzle.</h1>
+      </div>
+      <div class="hero-copy">
+        <p class="lead">Adaptasyonu programın önüne koyan sade koçluk sistemi.</p>
+        <p class="sublead">Hareketi yalnızca egzersiz listesi olarak değil; doz, yanıt ve karar arasındaki yaşayan ilişki olarak ele alır.</p>
+        <div class="actions">
+          <a class="btn primary" href="/movement-mind-online.html">Uygulamaya gir</a>
+          <a class="btn secondary" href="#sistem">Sistemi gör</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="sistem" class="section section-grid" aria-labelledby="system-title">
+      <div>
+        <div class="eyebrow">MOVEMENT MIND</div>
+      </div>
+      <div>
+        <h2 id="system-title">Program değil.<br>Karar mimarisi.</h2>
+        <div class="principles" style="margin-top:42px">
+          <article class="principle">
+            <span class="number">01</span>
+            <h3>Adaptasyonu tanımla</h3>
+            <p>Önce neyin değişmesini istediğini belirle. Egzersiz seçimi bundan sonra gelir.</p>
+          </article>
+          <article class="principle">
+            <span class="number">02</span>
+            <h3>Dozu kur</h3>
+            <p>Set, tekrar ve yoğunluğu amaçtan türet. Rastgele hacim yerine ölçülebilir uyaran üret.</p>
+          </article>
+          <article class="principle">
+            <span class="number">03</span>
+            <h3>Yanıtı izle</h3>
+            <p>Check-in, performans ve seans verisini karara dönüştür: artır, koru, azalt ya da değiştir.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-grid" aria-labelledby="flow-title">
+      <div><div class="eyebrow">AKIŞ</div></div>
+      <div>
+        <h2 id="flow-title">Uyaran ile sonuç arasındaki boşluğu görünür kıl.</h2>
+        <div class="sequence" style="margin-top:42px" aria-label="Movement Mind karar akışı">
+          <div><span>01</span><strong>Hedef adaptasyon</strong></div>
+          <div><span>02</span><strong>Egzersiz</strong></div>
+          <div><span>03</span><strong>Doz</strong></div>
+          <div><span>04</span><strong>Geri bildirim</strong></div>
+          <div><span>05</span><strong>Karar</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="product-title">
+      <div class="product">
+        <div class="product-main">
+          <div class="eyebrow">V1 · COACHING INTELLIGENCE</div>
+          <h2 id="product-title">Koç ve öğrenci aynı veriye, farklı gözle bakar.</h2>
+          <p style="margin:28px 0 0; max-width:620px; color:#c7c2b8; line-height:1.65">Koç için öncelik, program, gelişim ve karar ekranları. Öğrenci için bugün, program, gelişim ve check-in. Gereksiz katman yok.</p>
+        </div>
+        <div class="product-side">
+          <ul aria-label="Uygulama özellikleri">
+            <li>Koç / öğrenci rol ayrımı</li>
+            <li>Program versiyonlama</li>
+            <li>Günlük check-in</li>
+            <li>Performans ve gelişim takibi</li>
+            <li>Karar geçmişi</li>
+          </ul>
+          <a class="btn primary" href="/movement-mind-online.html">Movement Mind’a gir →</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="araclar" class="section section-grid" aria-labelledby="tools-title">
+      <div><div class="eyebrow">ARAÇLAR</div></div>
+      <div>
+        <h2 id="tools-title">Az araç.<br>Net işlev.</h2>
+        <div class="tools" style="margin-top:42px">
+          <a class="tool" href="/movement-mind-online.html">
+            <div>
+              <div class="eyebrow">KOÇLUK</div>
+              <h3 style="margin-top:14px">Movement Mind V1</h3>
+              <p>Programlama, check-in, gelişim ve karar takibi.</p>
+            </div>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="tool" href="/movement-mind-nutrition.html">
+            <div>
+              <div class="eyebrow">BESLENME</div>
+              <h3 style="margin-top:14px">Beslenme aracı</h3>
+              <p>Enerji ve makro tahminini başlangıç noktası olarak kur; sonucu trendle doğrula.</p>
+            </div>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="footer-grid">
+      <strong>MOVEMENT MIND</strong>
+      <span>THE INTELLIGENCE OF MOVEMENT · © 2026</span>
+    </div>
+  </footer>
+</body>
+</html>
