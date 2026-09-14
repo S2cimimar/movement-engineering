@@ -1,357 +1,46 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f2efe6">
-  <meta name="description" content="Movement Mind — adaptasyonu programın önüne koyan koçluk ve hareket sistemi.">
-  <meta name="robots" content="index,follow">
-  <link rel="canonical" href="https://movementmind.com.tr/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Movement Mind — The Intelligence of Movement">
-  <meta property="og:description" content="Gör. Karar ver. İzle. Adaptasyonu programın önüne koyan sade koçluk sistemi.">
-  <meta property="og:url" content="https://movementmind.com.tr/">
-  <meta name="twitter:card" content="summary">
-  <title>Movement Mind — The Intelligence of Movement</title>
-  <style>
-    :root {
-      --paper: #f2efe6;
-      --paper-2: #e8e3d7;
-      --ink: #171612;
-      --muted: #716d64;
-      --line: #c8c1b3;
-      --white: #fffdf8;
-      --max: 1180px;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: inherit; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    .wrap { width: min(calc(100% - 36px), var(--max)); margin-inline: auto; }
-    .skip { position: absolute; left: -9999px; top: 0; }
-    .skip:focus { left: 16px; top: 16px; z-index: 20; background: var(--ink); color: var(--white); padding: 10px 14px; }
-
-    .topbar {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      border-bottom: 1px solid var(--line);
-    }
-    .brand {
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .16em;
-      white-space: nowrap;
-    }
-    .nav { display: flex; align-items: center; gap: 22px; font-size: 13px; }
-    .nav a { text-decoration: none; color: var(--muted); }
-    .nav a:hover, .nav a:focus-visible { color: var(--ink); }
-    .nav .login { color: var(--ink); font-weight: 700; }
-
-    .hero {
-      min-height: 72vh;
-      display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
-      gap: 56px;
-      align-items: end;
-      padding: 86px 0 72px;
-      border-bottom: 1px solid var(--line);
-    }
-    .eyebrow {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    h1 {
-      margin: 18px 0 22px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 400;
-      font-size: clamp(64px, 10vw, 142px);
-      line-height: .82;
-      letter-spacing: -.065em;
-    }
-    .hero-copy {
-      align-self: center;
-      max-width: 420px;
-      padding-top: 60px;
-    }
-    .lead {
-      margin: 0;
-      font-size: clamp(19px, 2.1vw, 29px);
-      line-height: 1.25;
-      letter-spacing: -.025em;
-    }
-    .sublead {
-      margin: 20px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.7;
-      max-width: 38rem;
-    }
-    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
-    .btn {
-      min-height: 48px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 0 18px;
-      border: 1px solid var(--ink);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 750;
-      letter-spacing: .01em;
-      transition: transform .18s ease, background .18s ease, color .18s ease;
-    }
-    .btn:hover { transform: translateY(-1px); }
-    .btn.primary { background: var(--ink); color: var(--white); }
-    .btn.secondary { background: transparent; color: var(--ink); }
-
-    .section { padding: 88px 0; border-bottom: 1px solid var(--line); }
-    .section-grid {
-      display: grid;
-      grid-template-columns: minmax(180px, .42fr) minmax(0, 1.58fr);
-      gap: 56px;
-      align-items: start;
-    }
-    h2 {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(38px, 5vw, 72px);
-      line-height: .98;
-      font-weight: 400;
-      letter-spacing: -.045em;
-    }
-    .principles {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--ink);
-    }
-    .principle { padding: 22px 20px 30px 0; border-bottom: 1px solid var(--line); }
-    .principle + .principle { padding-left: 20px; border-left: 1px solid var(--line); }
-    .number { display: block; color: var(--muted); font-size: 11px; letter-spacing: .12em; margin-bottom: 56px; }
-    .principle h3 { margin: 0 0 10px; font-size: 20px; letter-spacing: -.02em; }
-    .principle p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
-
-    .sequence {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      border-top: 1px solid var(--ink);
-      border-bottom: 1px solid var(--ink);
-    }
-    .sequence div { padding: 22px 14px 26px; min-height: 138px; }
-    .sequence div + div { border-left: 1px solid var(--line); }
-    .sequence span { display: block; color: var(--muted); font-size: 10px; letter-spacing: .12em; margin-bottom: 34px; }
-    .sequence strong { font-size: 16px; line-height: 1.25; }
-
-    .product {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      min-height: 440px;
-      border: 1px solid var(--ink);
-      background: var(--ink);
-      color: var(--white);
-    }
-    .product-main { padding: clamp(34px, 6vw, 72px); display: flex; flex-direction: column; justify-content: space-between; }
-    .product-main h2 { max-width: 760px; }
-    .product-main .eyebrow { color: #aaa69c; }
-    .product-side { background: var(--paper-2); color: var(--ink); padding: 34px; display: flex; flex-direction: column; justify-content: space-between; }
-    .product-side ul { list-style: none; padding: 0; margin: 0; }
-    .product-side li { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
-    .product-side .btn { width: 100%; }
-
-    .tools {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .tool {
-      min-height: 250px;
-      border: 1px solid var(--line);
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      text-decoration: none;
-      background: rgba(255,255,255,.12);
-    }
-    .tool:hover { border-color: var(--ink); }
-    .tool h3 { margin: 0; font-size: 28px; font-weight: 500; letter-spacing: -.04em; }
-    .tool p { margin: 10px 0 0; color: var(--muted); max-width: 34rem; line-height: 1.55; }
-    .arrow { font-size: 24px; }
-
-    footer { padding: 28px 0 44px; }
-    .footer-grid { display: flex; justify-content: space-between; gap: 22px; color: var(--muted); font-size: 12px; }
-    .footer-grid strong { color: var(--ink); letter-spacing: .12em; }
-
-    @media (max-width: 820px) {
-      .nav a:not(.login) { display: none; }
-      .hero { min-height: auto; grid-template-columns: 1fr; gap: 8px; padding: 62px 0 58px; }
-      .hero-copy { padding-top: 0; }
-      h1 { font-size: clamp(62px, 19vw, 104px); }
-      .section { padding: 62px 0; }
-      .section-grid { grid-template-columns: 1fr; gap: 32px; }
-      .principles { grid-template-columns: 1fr; }
-      .principle + .principle { padding-left: 0; border-left: 0; }
-      .number { margin-bottom: 28px; }
-      .sequence { grid-template-columns: 1fr; }
-      .sequence div { min-height: 0; display: grid; grid-template-columns: 42px 1fr; align-items: center; }
-      .sequence div + div { border-left: 0; border-top: 1px solid var(--line); }
-      .sequence span { margin: 0; }
-      .product { grid-template-columns: 1fr; }
-      .tools { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 480px) {
-      .wrap { width: min(calc(100% - 28px), var(--max)); }
-      .topbar { min-height: 68px; }
-      .brand { font-size: 12px; }
-      .nav { gap: 12px; }
-      .hero { padding-top: 48px; }
-      .lead { font-size: 21px; }
-      .actions { display: grid; grid-template-columns: 1fr; }
-      .btn { width: 100%; }
-      .footer-grid { flex-direction: column; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition: none !important; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f1eee5">
+<meta name="description" content="Movement Mind — hareketi egzersiz listesinden çıkarıp adaptasyon, doz, geri bildirim ve karar üzerinden okuyan koçluk sistemi.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://movementmind.com.tr/">
+<link rel="stylesheet" href="/assets/public.css?v=20260915">
+<meta property="og:type" content="website"><meta property="og:title" content="Movement Mind — The Intelligence of Movement"><meta property="og:description" content="Hareketi görmek. Uyaranı kurmak. Yanıtı okumak."><meta property="og:url" content="https://movementmind.com.tr/">
+<title>Movement Mind — The Intelligence of Movement</title>
 </head>
 <body>
-  <a class="skip" href="#main">İçeriğe geç</a>
-
-  <header class="wrap topbar">
-    <a class="brand" href="/" aria-label="Movement Mind ana sayfa">MOVEMENT MIND</a>
-    <nav class="nav" aria-label="Ana menü">
-      <a href="#sistem">Sistem</a>
-      <a href="#araclar">Araçlar</a>
-      <a class="login" href="/movement-mind-online.html">Uygulamaya gir →</a>
-    </nav>
-  </header>
-
-  <main id="main" class="wrap">
-    <section class="hero" aria-labelledby="hero-title">
-      <div>
-        <div class="eyebrow">THE INTELLIGENCE OF MOVEMENT</div>
-        <h1 id="hero-title">Gör.<br>Karar ver.<br>İzle.</h1>
-      </div>
-      <div class="hero-copy">
-        <p class="lead">Adaptasyonu programın önüne koyan sade koçluk sistemi.</p>
-        <p class="sublead">Hareketi yalnızca egzersiz listesi olarak değil; doz, yanıt ve karar arasındaki yaşayan ilişki olarak ele alır.</p>
-        <div class="actions">
-          <a class="btn primary" href="/movement-mind-online.html">Uygulamaya gir</a>
-          <a class="btn secondary" href="#sistem">Sistemi gör</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="sistem" class="section section-grid" aria-labelledby="system-title">
-      <div>
-        <div class="eyebrow">MOVEMENT MIND</div>
-      </div>
-      <div>
-        <h2 id="system-title">Program değil.<br>Karar mimarisi.</h2>
-        <div class="principles" style="margin-top:42px">
-          <article class="principle">
-            <span class="number">01</span>
-            <h3>Adaptasyonu tanımla</h3>
-            <p>Önce neyin değişmesini istediğini belirle. Egzersiz seçimi bundan sonra gelir.</p>
-          </article>
-          <article class="principle">
-            <span class="number">02</span>
-            <h3>Dozu kur</h3>
-            <p>Set, tekrar ve yoğunluğu amaçtan türet. Rastgele hacim yerine ölçülebilir uyaran üret.</p>
-          </article>
-          <article class="principle">
-            <span class="number">03</span>
-            <h3>Yanıtı izle</h3>
-            <p>Check-in, performans ve seans verisini karara dönüştür: artır, koru, azalt ya da değiştir.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-grid" aria-labelledby="flow-title">
-      <div><div class="eyebrow">AKIŞ</div></div>
-      <div>
-        <h2 id="flow-title">Uyaran ile sonuç arasındaki boşluğu görünür kıl.</h2>
-        <div class="sequence" style="margin-top:42px" aria-label="Movement Mind karar akışı">
-          <div><span>01</span><strong>Hedef adaptasyon</strong></div>
-          <div><span>02</span><strong>Egzersiz</strong></div>
-          <div><span>03</span><strong>Doz</strong></div>
-          <div><span>04</span><strong>Geri bildirim</strong></div>
-          <div><span>05</span><strong>Karar</strong></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="product-title">
-      <div class="product">
-        <div class="product-main">
-          <div class="eyebrow">V1 · COACHING INTELLIGENCE</div>
-          <h2 id="product-title">Koç ve öğrenci aynı veriye, farklı gözle bakar.</h2>
-          <p style="margin:28px 0 0; max-width:620px; color:#c7c2b8; line-height:1.65">Koç için öncelik, program, gelişim ve karar ekranları. Öğrenci için bugün, program, gelişim ve check-in. Gereksiz katman yok.</p>
-        </div>
-        <div class="product-side">
-          <ul aria-label="Uygulama özellikleri">
-            <li>Koç / öğrenci rol ayrımı</li>
-            <li>Program versiyonlama</li>
-            <li>Günlük check-in</li>
-            <li>Performans ve gelişim takibi</li>
-            <li>Karar geçmişi</li>
-          </ul>
-          <a class="btn primary" href="/movement-mind-online.html">Movement Mind’a gir →</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="araclar" class="section section-grid" aria-labelledby="tools-title">
-      <div><div class="eyebrow">ARAÇLAR</div></div>
-      <div>
-        <h2 id="tools-title">Az araç.<br>Net işlev.</h2>
-        <div class="tools" style="margin-top:42px">
-          <a class="tool" href="/movement-mind-online.html">
-            <div>
-              <div class="eyebrow">KOÇLUK</div>
-              <h3 style="margin-top:14px">Movement Mind V1</h3>
-              <p>Programlama, check-in, gelişim ve karar takibi.</p>
-            </div>
-            <span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a class="tool" href="/movement-mind-nutrition.html">
-            <div>
-              <div class="eyebrow">BESLENME</div>
-              <h3 style="margin-top:14px">Beslenme aracı</h3>
-              <p>Enerji ve makro tahminini başlangıç noktası olarak kur; sonucu trendle doğrula.</p>
-            </div>
-            <span class="arrow" aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="wrap">
-    <div class="footer-grid">
-      <strong>MOVEMENT MIND</strong>
-      <span>THE INTELLIGENCE OF MOVEMENT · © 2026</span>
-    </div>
-  </footer>
-</body>
-</html>
+<header class="wrap topbar">
+<a class="brand" href="/">MOVEMENT MIND</a>
+<nav class="nav" aria-label="Ana menü"><a class="optional" href="/yaklasim/">Yaklaşım</a><a class="optional" href="/blog/">Yazılar</a><a class="optional" href="#sistem">Sistem</a><a class="login" href="/movement-mind-online.html">Giriş →</a></nav>
+</header>
+<main class="wrap">
+<section class="hero">
+<div><div class="eyebrow">THE INTELLIGENCE OF MOVEMENT</div><h1>Hareketi<br>okumak.</h1></div>
+<div class="hero-side"><p class="lead">Beden tekrar etmez. Yanıt verir.</p><p class="copy">Movement Mind, programı sabit bir reçete olarak değil; bedenin verdiği cevaba göre değişen bir karar sistemi olarak kurar.</p><div class="actions"><a class="btn dark" href="/movement-mind-online.html">Uygulamaya gir</a><a class="btn" href="/yaklasim/">Yaklaşımı oku</a></div></div>
+</section>
+<section class="section split">
+<div><div class="eyebrow">MOVEMENT MIND / 01</div></div>
+<div class="manifesto"><p>Bir hareketin değeri, <em>nasıl göründüğünde</em> değil; bedende neyi değiştirdiğinde başlar.</p></div>
+</section>
+<section id="sistem" class="section split">
+<div><div class="eyebrow">KARAR MİMARİSİ</div></div>
+<div><h2>Program değil.<br>Yaşayan bir sistem.</h2><div class="grid3"><article class="cell"><span class="n">01</span><h3>Adaptasyonu gör</h3><p>Önce neyin değişmesi gerektiğini tanımla. Egzersiz, hedefin ardından gelir.</p></article><article class="cell"><span class="n">02</span><h3>Uyaranı kur</h3><p>Egzersiz, set, tekrar ve yoğunluk tek başına veri değildir. Birlikte doz olurlar.</p></article><article class="cell"><span class="n">03</span><h3>Yanıtı oku</h3><p>Performans, his ve check-in sonucu yeniden programa döner. Sistem burada canlı kalır.</p></article></div></div>
+</section>
+<section class="section split">
+<div><div class="eyebrow">AKIŞ</div></div>
+<div><h2>Uyaran ile sonuç arasındaki boşluk.</h2><div class="sequence"><div><span>01</span><strong>Hedef adaptasyon</strong></div><div><span>02</span><strong>Egzersiz</strong></div><div><span>03</span><strong>Doz</strong></div><div><span>04</span><strong>Geri bildirim</strong></div><div><span>05</span><strong>Karar</strong></div></div></div>
+</section>
+<section class="section">
+<div class="dark-panel"><div class="dark-main"><div class="eyebrow">V1 · COACHING INTELLIGENCE</div><h2>Koçun gördüğünü sisteme, sistemin gördüğünü karara dönüştür.</h2><div><span style="font-family:Georgia,serif;font-size:18px;font-style:italic">Festina lente.</span></div></div><aside class="dark-side"><div><div class="eyebrow">MOVEMENT MIND V1</div><p style="margin-top:18px">Koç ve öğrenci aynı sürecin farklı yüzlerini görür. Program, check-in, gelişim ve karar tek akışta kalır.</p><ul><li>Bugün</li><li>Program</li><li>Gelişim</li><li>Check-in</li><li>Koç kararları</li></ul></div><a class="btn dark" href="/movement-mind-online.html">V1'e gir →</a></aside></div>
+</section>
+<section class="section split">
+<div><div class="eyebrow">YAZILAR / NOTLAR</div></div>
+<div><h2>Hareketin görünen kısmı azdır.</h2><div class="editorial"><a class="story featured" href="/blog/hareket-programdan-once/"><div><div class="meta"><span>01 · Movement</span><span>6 dk</span></div><h3>Programdan önce ne vardır?</h3><p>Egzersiz seçmeden önce bedende neyin değişmesini istediğimizi gerçekten biliyor muyuz?</p></div><span class="arrow">↗</span></a><div class="stack"><a class="story" href="/blog/"><div><div class="meta"><span>Pelvis</span><span>Yakında</span></div><h3>Pelvis bir pozisyon değil, bir ilişkidir.</h3></div><span class="arrow">→</span></a><a class="story" href="/blog/"><div><div class="meta"><span>Motor control</span><span>Notlar</span></div><h3>Kontrol, hareketsizlik değildir.</h3></div><span class="arrow">→</span></a></div></div></div>
+</section>
+<section id="araclar" class="section split"><div><div class="eyebrow">ARAÇLAR</div></div><div><h2>Uygulanan bilgi.</h2><div class="tools"><a class="tool" href="/movement-mind-online.html"><div><h3>Movement Mind V1</h3><p>Koçluk, program, check-in, gelişim ve karar sistemi.</p></div><span class="arrow">↗</span></a><a class="tool" href="/movement-mind-nutrition.html"><div><h3>Beslenme</h3><p>Movement Mind beslenme hesaplama ve planlama aracı.</p></div><span class="arrow">↗</span></a></div></div></section>
+</main>
+<footer class="wrap footer"><div class="footer-grid"><strong>MOVEMENT MIND</strong><div class="footer-links"><a href="/yaklasim/">Yaklaşım</a><a href="/blog/">Yazılar</a><a href="/movement-mind-online.html">Uygulama</a></div><span>THE INTELLIGENCE OF MOVEMENT</span></div></footer>
+</body></html>
