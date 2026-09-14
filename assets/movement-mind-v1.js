@@ -3,7 +3,7 @@
 
   const SUPABASE_URL = 'https://cxyqzkouezfvxwfvzcsz.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_X1zcEZSF1oz6Dlu-MI36lA_KkiQay8j';
-  const APP_URL = 'https://s2cimimar.github.io/movement-engineering/movement-mind-online.html';
+  const APP_URL = https://movementmind.com.tr/movement-mind-online.html;
   const core = window.MovementMindCore;
   const $ = id => document.getElementById(id);
 
